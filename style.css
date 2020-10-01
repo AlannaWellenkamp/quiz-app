@@ -1,0 +1,42 @@
+* {
+    box-sizing: border-box;
+}
+
+.wrapper {
+    margin: auto;
+    width: 95%;
+    border: dashed red 1px;
+}
+
+header h1 {
+    text-align: center;
+}
+
+form {
+    text-align: center;
+}
+
+.question {
+    display: flex;
+    flex-direction: column;
+}
+
+.item {
+    flex: 1;
+}
+
+img {
+    margin: auto;
+    width: 75%;
+}
+
+@media all and (min-width:700px) {
+    form {
+        text-align: left;
+        margin-left: 50px;
+    }
+    .question {
+        flex-direction: row;
+    }
+}
+

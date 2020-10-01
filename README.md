@@ -1,0 +1,1 @@
+simple quizz app demonstrating basic use of HTML, CSS, JavaScript/jQuery
