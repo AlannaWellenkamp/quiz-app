@@ -62,15 +62,16 @@ function render(){
   const currentRender = generateHtml(store);
 
   $('main').html(currentRender);
+  console.log('rendered');
 }
 
 function generateHtml(store){
   //determine which element to create
   //if quiz started ! generateBeginElement
-  if (store.quizStarted === false) {
+  if (store.questionNumber === 0) {
     return generateBeginElement();
   }
-  if ((store.questionNumber) === store.questions.length) {
+  else if ((store.questionNumber) === store.questions.length) {
     return generateEndElement();
   }
   else {
@@ -83,8 +84,8 @@ function generateHtml(store){
 
 function generateBeginElement(){
   return `<p>Hi there, ready for a quiz on some animal trivia?</p>
-  <form>
-    <button>I'm ready!</button>
+  <form class="js-start">
+    <button id="js-start">I'm ready!</button>
   </form>`
 
 }
@@ -92,14 +93,13 @@ function generateBeginElement(){
 function generateEndElement(){
   return `<p>wanna play again?</p>
   <form>
-    <button>I'm ready!</button>
+    <button>Yeah!</button>
   </form>`
 
 }
 
 function generateQuestionElement(store){
   //produce relevant html for question
-  const quest = "fuckdkd"
   return `<div>
     <div class="question group">
     <form class="item">
@@ -115,23 +115,56 @@ function generateQuestionElement(store){
           <button type="submit">Submit</button>
       </form>  
     </div>
+    <span>Current Score: ${store.score}/${store.questionNumber}
   </div>`;
 }
 
 function handleBeginQuiz(){
   //listen for and enact begin quiz
+  $('.js-start').on('click', '#js-start', (event) => {
+      nextQuestion();
+    })
 }
 
 function handleQuestionResponse(){
   //listen for question answer submit
+  $('.question').on('submit', function(event){
+    event.preventDefault();
+    const answer = checkAnswer($ ("input:checked").val());
+    if (answer) {
+      feedbackCorrect();
+    }
+    else {
+      feedbackWrong();
+    }
+  })
 }
 
-function responseFeedback(){
+function checkAnswer(userAnswer){
+  if (userAnswer === store.questions[store.questionNumber].correctAnswer) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+function feedbackCorrect(){
   //offer responsive feedback to answer submitted
+  $('main').html('YAY');
+}
+
+function feedbackWrong(){
+
 }
 
 function handleNextQuestion(){
   //listen for next question click
+}
+
+function nextQuestion(){
+  store.questionNumber += 1;
+  render();
 }
 
 function quizEnd(){
@@ -173,7 +206,7 @@ function quizEnd(){
 
 function quizApp() {
   render();
-  
+  handleBeginQuiz();
 }
 
 $(quizApp);
