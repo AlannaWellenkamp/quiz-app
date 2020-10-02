@@ -2,24 +2,54 @@
 const store = {
     questions: [
       {
-        question: 'What color is broccoli?',
+        question: 'A single lion will kill, on average, how many large prey animals each year?',
         answers: [
-          'red',
-          'orange',
-          'pink',
-          'green'
+          '15',
+          '25',
+          '38',
+          '50'
         ],
-        correctAnswer: 'green'
+        correctAnswer: 'a'
       },
       {
-        question: 'What is the current year?',
+        question: 'A woodpecker can peck how many times each second?',
         answers: [
-          '1970',
-          '2015',
-          '2019',
-          '2005'
+          '15',
+          '20',
+          '25',
+          '30'
         ],
-        correctAnswer: '2019'
+        correctAnswer: 'b'
+      },
+      {
+        question: 'A domestic cat has how many muscles in each ear?',
+        answers: [
+          '16',
+          '24',
+          '32',
+          '40'
+        ],
+        correctAnswer: 'c'
+      },
+      {
+        question: 'An elephant can smell water up to how many miles away?',
+        answers: [
+          '3',
+          '6',
+          '9',
+          '12'
+        ],
+        correctAnswer: 'd'
+      },
+      {
+        question: 'Which of the following is true? Flamingos...',
+        answers: [
+          'will sometimes have their legs freeze in a body of water overnight, only to thaw the next morning with no repercussions',
+          'can drink boiling water',
+          'can survive exposure to arsenic, other caustic elements, and poisonous gasses',
+          'all of the above'
+        ],
+        correctAnswer: 'd'
       }
     ],
     quizStarted: false,
@@ -44,7 +74,7 @@ function generateHtml(store){
     return generateEndElement();
   }
   else {
-    return generateQuestionElement();
+    return generateQuestionElement(store);
   }
   
   //if quiz end generateEndElement
@@ -67,23 +97,23 @@ function generateEndElement(){
 
 }
 
-function generateQuestionElement(question){
+function generateQuestionElement(store){
   //produce relevant html for question
+  const quest = "fuckdkd"
   return `<div>
     <div class="question group">
     <form class="item">
-        <h2>Question Here</h2>
-         <input type="radio" name="question-1-response" id="question-1-a" value="a"/>
-         <label for="a">a) response a</label><br>
-         <input type="radio" name="question-1-response" id="question-1-b" value="b"/>
-         <label for="b">a) response b</label><br>
-         <input type="radio" name="question-1-response" id="question-1-a" value="c"/>
-         <label for="c">a) response c</label><br>
-         <input type="radio" name="question-1-response" id="question-1-a" value="d"/>
-         <label for="d">a) response d</label><br>
+        <h2>${store.questions[store.questionNumber].question}</h2>
+         <input type="radio" name="question-response" id="question-a" value="a"/>
+         <label for="a">a) ${store.questions[store.questionNumber].answers[0]}</label><br>
+         <input type="radio" name="question-response" id="question-b" value="b"/>
+         <label for="b">b) ${store.questions[store.questionNumber].answers[1]}</label><br>
+         <input type="radio" name="question-response" id="question-c" value="c"/>
+         <label for="c">c) ${store.questions[store.questionNumber].answers[2]}</label><br>
+         <input type="radio" name="question-response" id="question-d" value="d"/>
+         <label for="d">d) ${store.questions[store.questionNumber].answers[3]}</label><br>
           <button type="submit">Submit</button>
-      </form>   
-      <img src="images/cat.jpg" alt="striped cat sitting with ears down" class="item">
+      </form>  
     </div>
   </div>`;
 }
