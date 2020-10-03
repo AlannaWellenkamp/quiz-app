@@ -91,9 +91,9 @@ function generateBeginElement(){
 }
 
 function generateEndElement(){
-  return `<p>wanna play again?</p>
+  return `<p>You scored ${store.score} right out of ${store.questions.length}.</p>
   <form>
-    <button id="js-quiz-restart">Yeah!</button>
+    <button id="js-quiz-restart">Restart</button>
   </form>`
 
 }
@@ -103,16 +103,16 @@ function generateQuestionElement(store){
   return `<div>
     <div class="question group">
     <form class="js-question-form item">
-        <h2>${store.questions[store.questionNumber].question}</h2>
-         <input type="radio" name="question-response" id="question-a" value="${store.questions[store.questionNumber].answers[0]}"/>
+        <h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
+         <input type="radio" name="question-response" id="question-a" value="${store.questions[store.questionNumber].answers[0]}" required/>
          <label for="a">a) ${store.questions[store.questionNumber].answers[0]}</label><br>
-         <input type="radio" name="question-response" id="question-b" value="${store.questions[store.questionNumber].answers[1]}"/>
+         <input type="radio" name="question-response" id="question-b" value="${store.questions[store.questionNumber].answers[1]}" required/>
          <label for="b">b) ${store.questions[store.questionNumber].answers[1]}</label><br>
-         <input type="radio" name="question-response" id="question-c" value="${store.questions[store.questionNumber].answers[2]}"/>
+         <input type="radio" name="question-response" id="question-c" value="${store.questions[store.questionNumber].answers[2]}" required/>
          <label for="c">c) ${store.questions[store.questionNumber].answers[2]}</label><br>
-         <input type="radio" name="question-response" id="question-d" value="${store.questions[store.questionNumber].answers[3]}"/>
+         <input type="radio" name="question-response" id="question-d" value="${store.questions[store.questionNumber].answers[3]}" required/>
          <label for="d">d) ${store.questions[store.questionNumber].answers[3]}</label><br>
-         <button type ="submit" id="answer-submit">Submit</button>
+         <button type ="submit" id="js-answer-submit">Submit</button>
       </form>  
     </div>
     <span>Current Score: ${store.score}/${store.questionNumber}
@@ -121,7 +121,7 @@ function generateQuestionElement(store){
 
 function handleBeginQuiz(){
   //listen for and enact begin quiz
-  $('.js-start').on('click', '#js-start', (event) => {
+  $('main').on('click', '#js-start', (event) => {
       nextQuestion();
     })
 }
@@ -155,17 +155,18 @@ function checkAnswer(userAnswer){
 
 function feedbackCorrect(){
   //offer responsive feedback to answer submitted
-  $('main').append(
+  $('main').html(
     `<p>Correct</p>
+    <p>Current Score: ${store.score}/${store.questionNumber + 1}</p>
     <button id="js-next-question">Next</button>`
     );
 }
 
-function feedbackWrong(){
-  $('main').append(
-    `<p>Nope, the correct answer is actually ${store.questions[store.questionNumber].correctAnswer}</p>
-    <button id="js-next-question">Next</button>`
-    );
+function feedbackWrong() {   
+  $('main').html(
+    `<p>Nope, the correct answer is ${store.questions[store.questionNumber].correctAnswer}</p>
+    <p>Current Score: ${store.score}/${store.questionNumber + 1}</p>
+    <button id='js-next-question'>Next</button>`)
 }
 
 function handleNextQuestion(){
@@ -179,10 +180,6 @@ function handleNextQuestion(){
 function nextQuestion(){
   store.questionNumber += 1;
   render();
-}
-
-function quizEnd(){
-  //render score and present with option to restart
 }
 
 function handleQuizRestart() {
