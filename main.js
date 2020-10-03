@@ -58,7 +58,6 @@ const store = {
 };
 
 function render(){
-  //render relevant html
   const currentRender = generateHtml(store);
 
   $('main').html(currentRender);
@@ -66,8 +65,6 @@ function render(){
 }
 
 function generateHtml(store){
-  //determine which element to create
-  //if quiz started ! generateBeginElement
   if (store.questionNumber === -1) {
     return generateBeginElement();
   }
@@ -77,9 +74,6 @@ function generateHtml(store){
   else {
     return generateQuestionElement(store);
   }
-  
-  //if quiz end generateEndElement
-  //else generateQuestionElement
 }
 
 function generateBeginElement(){
@@ -99,7 +93,6 @@ function generateEndElement(){
 }
 
 function generateQuestionElement(store){
-  //produce relevant html for question
   return `<div>
     <div class="question group">
     <form class="js-question-form item">
@@ -127,7 +120,6 @@ function handleBeginQuiz(){
 }
 
 function handleQuestionResponse(){
-  //listen for question answer submit
   $("main").on("submit", ".js-question-form", function(event){
     event.preventDefault();
     const userAnswer = $("input[type='radio'][name='question-response']:checked").val();
@@ -170,7 +162,6 @@ function feedbackWrong() {
 }
 
 function handleNextQuestion(){
-  //listen for next question click
   $("main").on("click", "#js-next-question", function(event){
     store.questionNumber += 1;
     render();
