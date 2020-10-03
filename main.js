@@ -9,7 +9,7 @@ const store = {
           '38',
           '50'
         ],
-        correctAnswer: 'a'
+        correctAnswer: '15'
       },
       {
         question: 'A woodpecker can peck how many times each second?',
@@ -19,7 +19,7 @@ const store = {
           '25',
           '30'
         ],
-        correctAnswer: 'b'
+        correctAnswer: '20'
       },
       {
         question: 'A domestic cat has how many muscles in each ear?',
@@ -29,7 +29,7 @@ const store = {
           '32',
           '40'
         ],
-        correctAnswer: 'c'
+        correctAnswer: '32'
       },
       {
         question: 'An elephant can smell water up to how many miles away?',
@@ -39,7 +39,7 @@ const store = {
           '9',
           '12'
         ],
-        correctAnswer: 'd'
+        correctAnswer: '12'
       },
       {
         question: 'Which of the following is true? Flamingos...',
@@ -49,11 +49,11 @@ const store = {
           'can survive exposure to arsenic, other caustic elements, and poisonous gasses',
           'all of the above'
         ],
-        correctAnswer: 'd'
+        correctAnswer: 'all of the above'
       }
     ],
     quizStarted: false,
-    questionNumber: 0,
+    questionNumber: -1,
     score: 0
 };
 
@@ -68,7 +68,7 @@ function render(){
 function generateHtml(store){
   //determine which element to create
   //if quiz started ! generateBeginElement
-  if (store.questionNumber === 0) {
+  if (store.questionNumber === -1) {
     return generateBeginElement();
   }
   else if ((store.questionNumber) === store.questions.length) {
@@ -93,7 +93,7 @@ function generateBeginElement(){
 function generateEndElement(){
   return `<p>wanna play again?</p>
   <form>
-    <button>Yeah!</button>
+    <button id="js-quiz-restart">Yeah!</button>
   </form>`
 
 }
@@ -102,17 +102,17 @@ function generateQuestionElement(store){
   //produce relevant html for question
   return `<div>
     <div class="question group">
-    <form class="item">
+    <form class="js-question-form item">
         <h2>${store.questions[store.questionNumber].question}</h2>
-         <input type="radio" name="question-response" id="question-a" value="a"/>
+         <input type="radio" name="question-response" id="question-a" value="${store.questions[store.questionNumber].answers[0]}"/>
          <label for="a">a) ${store.questions[store.questionNumber].answers[0]}</label><br>
-         <input type="radio" name="question-response" id="question-b" value="b"/>
+         <input type="radio" name="question-response" id="question-b" value="${store.questions[store.questionNumber].answers[1]}"/>
          <label for="b">b) ${store.questions[store.questionNumber].answers[1]}</label><br>
-         <input type="radio" name="question-response" id="question-c" value="c"/>
+         <input type="radio" name="question-response" id="question-c" value="${store.questions[store.questionNumber].answers[2]}"/>
          <label for="c">c) ${store.questions[store.questionNumber].answers[2]}</label><br>
-         <input type="radio" name="question-response" id="question-d" value="d"/>
+         <input type="radio" name="question-response" id="question-d" value="${store.questions[store.questionNumber].answers[3]}"/>
          <label for="d">d) ${store.questions[store.questionNumber].answers[3]}</label><br>
-          <button type="submit">Submit</button>
+         <button type ="submit" id="answer-submit">Submit</button>
       </form>  
     </div>
     <span>Current Score: ${store.score}/${store.questionNumber}
@@ -128,20 +128,24 @@ function handleBeginQuiz(){
 
 function handleQuestionResponse(){
   //listen for question answer submit
-  $('.question').on('submit', function(event){
+  $("main").on("submit", ".js-question-form", function(event){
     event.preventDefault();
-    const answer = checkAnswer($ ("input:checked").val());
-    if (answer) {
+    const userAnswer = $("input[type='radio'][name='question-response']:checked").val();
+    const correct = checkAnswer(userAnswer);
+    console.log(userAnswer);
+    if (correct) {
       feedbackCorrect();
     }
     else {
       feedbackWrong();
-    }
+    }       
   })
 }
 
 function checkAnswer(userAnswer){
   if (userAnswer === store.questions[store.questionNumber].correctAnswer) {
+    store.score += 1;
+    console.log(store.score);
     return true;
   }
   else {
@@ -151,15 +155,25 @@ function checkAnswer(userAnswer){
 
 function feedbackCorrect(){
   //offer responsive feedback to answer submitted
-  $('main').html('YAY');
+  $('main').append(
+    `<p>Correct</p>
+    <button id="js-next-question">Next</button>`
+    );
 }
 
 function feedbackWrong(){
-
+  $('main').append(
+    `<p>Nope, the correct answer is actually ${store.questions[store.questionNumber].correctAnswer}</p>
+    <button id="js-next-question">Next</button>`
+    );
 }
 
 function handleNextQuestion(){
   //listen for next question click
+  $("main").on("click", "#js-next-question", function(event){
+    store.questionNumber += 1;
+    render();
+  })
 }
 
 function nextQuestion(){
@@ -169,6 +183,14 @@ function nextQuestion(){
 
 function quizEnd(){
   //render score and present with option to restart
+}
+
+function handleQuizRestart() {
+  $("main").on("click", "#js-quiz-restart", function(event){
+    store.score = 0;
+    store.questionNumber = -1;
+    render();
+  })
 }
 
 
@@ -207,6 +229,9 @@ function quizEnd(){
 function quizApp() {
   render();
   handleBeginQuiz();
+  handleQuestionResponse();
+  handleNextQuestion();
+  handleQuizRestart();
 }
 
 $(quizApp);
