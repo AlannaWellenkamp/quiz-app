@@ -185,13 +185,15 @@ function nextQuestion(){
   render();
 }
 
+function quizApp() {
+  render();
+  handleBeginQuiz();
+  handleQuestionResponse();
+  handleNextQuestion();
+  handleQuizRestart();
+}
 
-
-
-
-
-
-
+$(quizApp);
 
 /**
    * 
@@ -219,13 +221,3 @@ function nextQuestion(){
   /********** EVENT HANDLER FUNCTIONS **********/
   
 // These functions handle events (submit, click, etc)
-
-function quizApp() {
-  render();
-  handleBeginQuiz();
-  handleQuestionResponse();
-  handleNextQuestion();
-  handleQuizRestart();
-}
-
-$(quizApp);

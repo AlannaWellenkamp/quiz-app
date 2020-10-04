@@ -19,7 +19,8 @@ header h1 {
 }
 
 h1, h2, .response, button, p {
-    font-family: "Trebuchet MS", Helvetica, sans-serif
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    color: #082213;
 }
 
 h2 {
