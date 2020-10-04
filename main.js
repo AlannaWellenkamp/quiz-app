@@ -132,7 +132,7 @@ function checkFeedback() {
       feedbackCorrect();
     }
     else {
-      feedbackWrong();
+      feedbackWrong(userAnswer);
     }       
 }
 
@@ -154,7 +154,8 @@ function feedbackCorrect(){
 
 function generateFeedbackCorrect(){
   $('main').html(
-    `<p>Correct</p>
+    `<h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
+    <p>Correct! ${store.questions[store.questionNumber].correctAnswer} was the right answer.</p>
     <p>Current Score: ${store.score}/${store.questionNumber + 1}</p>
     <button id="js-next-question">Next</button>`
     );
@@ -164,17 +165,17 @@ function feedbackWrong() {
   generateFeedbackWrong();
 }
 
-function generateFeedbackWrong() {   
+function generateFeedbackWrong(userAnswer) {   
   $('main').html(
-    `<p>Nope, the correct answer is ${store.questions[store.questionNumber].correctAnswer}</p>
+    `<h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
+    <p>Sorry, that was inccorect. The right answer is ${store.questions[store.questionNumber].correctAnswer}</p>
     <p>Current Score: ${store.score}/${store.questionNumber + 1}</p>
     <button id='js-next-question'>Next</button>`)
 }
 
 function handleNextQuestion(){
   $("main").on("click", "#js-next-question", function(event){
-    store.questionNumber += 1;
-    render();
+  nextQuestion();
   })
 }
 
