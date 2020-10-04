@@ -52,11 +52,11 @@ const store = {
         correctAnswer: 'all of the above'
       }
     ],
-    quizStarted: false,
     questionNumber: -1,
     score: 0
 };
 
+/********** RENDER FUNCTION(S) **********/
 function render(){
   const currentRender = generateHtml(store);
   $('main').html(currentRender);
@@ -74,6 +74,8 @@ function generateHtml(store){
     return generateQuestionElement(store);
   }
 }
+
+/********** TEMPLATE GENERATION FUNCTIONS **********/
 
 function generateBeginElement(){
   return `<div id="startscreen">
@@ -109,6 +111,24 @@ function generateQuestionElement(store){
   </div>`;
 }
 
+function generateFeedbackCorrect(){
+  $('main').html(
+    `<h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
+    <p>Correct! ${store.questions[store.questionNumber].correctAnswer} was the right answer.</p>
+    <p class="score">Current Score: ${store.score}/${store.questionNumber + 1}</p>
+    <button id="js-next-question">Next</button>`
+    );
+}
+
+function generateFeedbackWrong(userAnswer) {   
+  $('main').html(
+    `<h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
+    <p>Sorry, that was inccorect. The right answer is ${store.questions[store.questionNumber].correctAnswer}</p>
+    <p>Current Score: ${store.score}/${store.questionNumber + 1}</p>
+    <button id='js-next-question'>Next</button>`)
+}
+
+/********** EVENT HANDLER FUNCTIONS **********/
 function handleBeginQuiz(){
   $('main').on('click', '#js-start', (event) => {
       nextQuestion();
@@ -122,18 +142,32 @@ function handleQuestionResponse(){
   })
 }
 
+function handleNextQuestion(){
+  $("main").on("click", "#js-next-question", function(event){
+  nextQuestion();
+  })
+}
+
+function handleQuizRestart() {
+  $("main").on("click", "#js-quiz-restart", function(event){
+    store.score = 0;
+    store.questionNumber = -1;
+    render();
+  })
+}
+
+/********** OTHER FUNCTIONS **********/
 function checkFeedback() {
   const userAnswer = $("input[type='radio'][name='question-response']:checked").val();
     const correct = checkAnswer(userAnswer);
     console.log(userAnswer);
     if (correct) {
-      feedbackCorrect();
+      generateFeedbackCorrect();
     }
     else {
-      feedbackWrong(userAnswer);
+      generateFeedbackWrong();
     }       
 }
-
 
 function checkAnswer(userAnswer){
   if (userAnswer === store.questions[store.questionNumber].correctAnswer) {
@@ -146,49 +180,12 @@ function checkAnswer(userAnswer){
   }
 }
 
-function feedbackCorrect(){
-  generateFeedbackCorrect();
-}
-
-function generateFeedbackCorrect(){
-  $('main').html(
-    `<h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
-    <p>Correct! ${store.questions[store.questionNumber].correctAnswer} was the right answer.</p>
-    <p class="score">Current Score: ${store.score}/${store.questionNumber + 1}</p>
-    <button id="js-next-question">Next</button>`
-    );
-}
-
-function feedbackWrong() {
-  generateFeedbackWrong();
-}
-
-function generateFeedbackWrong(userAnswer) {   
-  $('main').html(
-    `<h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
-    <p>Sorry, that was inccorect. The right answer is ${store.questions[store.questionNumber].correctAnswer}</p>
-    <p>Current Score: ${store.score}/${store.questionNumber + 1}</p>
-    <button id='js-next-question'>Next</button>`)
-}
-
-function handleNextQuestion(){
-  $("main").on("click", "#js-next-question", function(event){
-  nextQuestion();
-  })
-}
-
 function nextQuestion(){
   store.questionNumber += 1;
   render();
 }
 
-function handleQuizRestart() {
-  $("main").on("click", "#js-quiz-restart", function(event){
-    store.score = 0;
-    store.questionNumber = -1;
-    render();
-  })
-}
+
 
 
 
