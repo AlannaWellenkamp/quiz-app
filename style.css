@@ -18,7 +18,7 @@ header h1 {
     font-size: 2em;
 }
 
-h1, h2, input, button, p {
+h1, h2, .response, button, p {
     font-family: "Trebuchet MS", Helvetica, sans-serif
 }
 
@@ -26,7 +26,7 @@ h2 {
     font-size: 1.5em;
 }
 
-input, button, p, label {
+input, button, p, .response {
     font-size: 1.2em;
 }
 
@@ -70,16 +70,17 @@ button {
         margin: 50px;
     }
 
-    h1 {
-        font-size: 3em;
+    header h1 {
+        font-size: 3.5em;
     }
 
     h2 {
-        font-size: 2em;
+        font-size: 1.8em;
     }
-    input, button, p, label {
-        font-size: 1.5em;
+    input, button, p, .response {
+        font-size: 1.4em;
     }
+    
     #endscreen, #startscreen {
         display: inline;
         text-align: left;

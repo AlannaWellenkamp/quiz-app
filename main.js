@@ -96,13 +96,13 @@ function generateQuestionElement(store){
   <form class="js-question-form">
       <h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
        <input type="radio" name="question-response" id="question-a" value="${store.questions[store.questionNumber].answers[0]}" required/>
-       <label for="a">${store.questions[store.questionNumber].answers[0]}</label><br>
+       <label for="${store.questions[store.questionNumber].answers[0]}"><span class="response">${store.questions[store.questionNumber].answers[0]}</span></label><br>
        <input type="radio" name="question-response" id="question-b" value="${store.questions[store.questionNumber].answers[1]}" required/>
-       <label for="b">${store.questions[store.questionNumber].answers[1]}</label><br>
+       <label for="${store.questions[store.questionNumber].answers[1]}"><span class="response">${store.questions[store.questionNumber].answers[1]}</span></label><br>
        <input type="radio" name="question-response" id="question-c" value="${store.questions[store.questionNumber].answers[2]}" required/>
-       <label for="c">${store.questions[store.questionNumber].answers[2]}</label><br>
+       <label for="${store.questions[store.questionNumber].answers[2]}"><span class="response">${store.questions[store.questionNumber].answers[2]}</span></label><br>
        <input type="radio" name="question-response" id="question-d" value="${store.questions[store.questionNumber].answers[3]}" required/>
-       <label for="d">${store.questions[store.questionNumber].answers[3]}</label><br>
+       <label for="${store.questions[store.questionNumber].answers[3]}"><span class="response">${store.questions[store.questionNumber].answers[3]}</span></label><br>
        <button type ="submit" id="js-answer-submit">Submit</button>
     </form>  
     <p class="score">Current Score: ${store.score}/${store.questionNumber}</p>
