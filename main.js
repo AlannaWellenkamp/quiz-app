@@ -76,38 +76,36 @@ function generateHtml(store){
 }
 
 function generateBeginElement(){
-  return `<p>Hi there, ready for a quiz on some animal trivia?</p>
-  <form class="js-start">
-    <button id="js-start">I'm ready!</button>
-  </form>`
+  return `<div id="startscreen">
+    <h2>Hi there, ready for a quiz on some animal trivia?</h2>
+    <form class="js-start"><button id="js-start">I'm ready!</button></form>
+  </div>`
 
 }
 
 function generateEndElement(){
-  return `<p>You scored ${store.score} right out of ${store.questions.length}.</p>
-  <form>
-    <button id="js-quiz-restart">Restart</button>
-  </form>`
+  return `<div id="endscreen">
+    <p>You scored ${store.score} right out of ${store.questions.length}.</p>
+    <form><button id="js-quiz-restart">Play again</button></form>
+  </div>`
 
 }
 
 function generateQuestionElement(store){
-  return `<div>
-    <div class="question group">
-    <form class="js-question-form item">
-        <h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
-         <input type="radio" name="question-response" id="question-a" value="${store.questions[store.questionNumber].answers[0]}" required/>
-         <label for="a">${store.questions[store.questionNumber].answers[0]}</label><br>
-         <input type="radio" name="question-response" id="question-b" value="${store.questions[store.questionNumber].answers[1]}" required/>
-         <label for="b">${store.questions[store.questionNumber].answers[1]}</label><br>
-         <input type="radio" name="question-response" id="question-c" value="${store.questions[store.questionNumber].answers[2]}" required/>
-         <label for="c">${store.questions[store.questionNumber].answers[2]}</label><br>
-         <input type="radio" name="question-response" id="question-d" value="${store.questions[store.questionNumber].answers[3]}" required/>
-         <label for="d">${store.questions[store.questionNumber].answers[3]}</label><br>
-         <button type ="submit" id="js-answer-submit">Submit</button>
-      </form>  
-    </div>
-    <span>Current Score: ${store.score}/${store.questionNumber}
+  return `<div class="question">
+  <form class="js-question-form">
+      <h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
+       <input type="radio" name="question-response" id="question-a" value="${store.questions[store.questionNumber].answers[0]}" required/>
+       <label for="a">${store.questions[store.questionNumber].answers[0]}</label><br>
+       <input type="radio" name="question-response" id="question-b" value="${store.questions[store.questionNumber].answers[1]}" required/>
+       <label for="b">${store.questions[store.questionNumber].answers[1]}</label><br>
+       <input type="radio" name="question-response" id="question-c" value="${store.questions[store.questionNumber].answers[2]}" required/>
+       <label for="c">${store.questions[store.questionNumber].answers[2]}</label><br>
+       <input type="radio" name="question-response" id="question-d" value="${store.questions[store.questionNumber].answers[3]}" required/>
+       <label for="d">${store.questions[store.questionNumber].answers[3]}</label><br>
+       <button type ="submit" id="js-answer-submit">Submit</button>
+    </form>  
+    <p class="score">Current Score: ${store.score}/${store.questionNumber}</p>
   </div>`;
 }
 
@@ -156,7 +154,7 @@ function generateFeedbackCorrect(){
   $('main').html(
     `<h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
     <p>Correct! ${store.questions[store.questionNumber].correctAnswer} was the right answer.</p>
-    <p>Current Score: ${store.score}/${store.questionNumber + 1}</p>
+    <p class="score">Current Score: ${store.score}/${store.questionNumber + 1}</p>
     <button id="js-next-question">Next</button>`
     );
 }

@@ -1,45 +1,90 @@
 * {
     box-sizing: border-box;
+    background-image: url('images/background-tile.png')
 }
+
+html {
+    font-size: 100%;
+}
+
 
 .wrapper {
     margin: auto;
     width: 95%;
-    border: dashed red 1px;
 }
 
 header h1 {
     text-align: center;
+    font-size: 2em;
 }
 
-form {
+h1, h2, input, button, p {
+    font-family: "Trebuchet MS", Helvetica, sans-serif
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+input, button, p, label {
+    font-size: 1.2em;
+}
+
+
+button {
+    margin: 10px 10px 10px 0;
+    background: #ffffff;
+    border-radius: 15%;
+    display: block;
+	text-align: center;
+	margin: 10px auto;
+}
+
+#endscreen, #startscreen {
+    display: block;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.score {
     text-align: center;
 }
 
-.question {
-    display: flex;
-    flex-direction: column;
-}
-
-.item {
-    flex: 1;
-}
-
-img {
-    margin: auto;
-    width: 75%;
-}
-
 @media all and (min-width:700px) {
-    form {
+    .wrapper {
+        width: 75%;
+    }
+    main {
         text-align: left;
-        margin-left: 50px;
     }
-    .question {
-        flex-direction: row;
+
+    .score {
+        text-align: left;
     }
-    img {
-        margin-right: 20px;
+    button{
+        display: inline;
+        text-align: left;
     }
+    
+    header {
+        margin: 50px;
+    }
+
+    h1 {
+        font-size: 3em;
+    }
+
+    h2 {
+        font-size: 2em;
+    }
+    input, button, p, label {
+        font-size: 1.5em;
+    }
+    #endscreen, #startscreen {
+        display: inline;
+        text-align: left;
+        margin: 0 auto;
+    }
+    
 }
 
