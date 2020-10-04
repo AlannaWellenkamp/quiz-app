@@ -59,7 +59,6 @@ const store = {
 
 function render(){
   const currentRender = generateHtml(store);
-
   $('main').html(currentRender);
   console.log('rendered');
 }
@@ -98,13 +97,13 @@ function generateQuestionElement(store){
     <form class="js-question-form item">
         <h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
          <input type="radio" name="question-response" id="question-a" value="${store.questions[store.questionNumber].answers[0]}" required/>
-         <label for="a">a) ${store.questions[store.questionNumber].answers[0]}</label><br>
+         <label for="a">${store.questions[store.questionNumber].answers[0]}</label><br>
          <input type="radio" name="question-response" id="question-b" value="${store.questions[store.questionNumber].answers[1]}" required/>
-         <label for="b">b) ${store.questions[store.questionNumber].answers[1]}</label><br>
+         <label for="b">${store.questions[store.questionNumber].answers[1]}</label><br>
          <input type="radio" name="question-response" id="question-c" value="${store.questions[store.questionNumber].answers[2]}" required/>
-         <label for="c">c) ${store.questions[store.questionNumber].answers[2]}</label><br>
+         <label for="c">${store.questions[store.questionNumber].answers[2]}</label><br>
          <input type="radio" name="question-response" id="question-d" value="${store.questions[store.questionNumber].answers[3]}" required/>
-         <label for="d">d) ${store.questions[store.questionNumber].answers[3]}</label><br>
+         <label for="d">${store.questions[store.questionNumber].answers[3]}</label><br>
          <button type ="submit" id="js-answer-submit">Submit</button>
       </form>  
     </div>
@@ -113,7 +112,6 @@ function generateQuestionElement(store){
 }
 
 function handleBeginQuiz(){
-  //listen for and enact begin quiz
   $('main').on('click', '#js-start', (event) => {
       nextQuestion();
     })
@@ -122,7 +120,12 @@ function handleBeginQuiz(){
 function handleQuestionResponse(){
   $("main").on("submit", ".js-question-form", function(event){
     event.preventDefault();
-    const userAnswer = $("input[type='radio'][name='question-response']:checked").val();
+    checkFeedback();  
+  })
+}
+
+function checkFeedback() {
+  const userAnswer = $("input[type='radio'][name='question-response']:checked").val();
     const correct = checkAnswer(userAnswer);
     console.log(userAnswer);
     if (correct) {
@@ -131,8 +134,8 @@ function handleQuestionResponse(){
     else {
       feedbackWrong();
     }       
-  })
 }
+
 
 function checkAnswer(userAnswer){
   if (userAnswer === store.questions[store.questionNumber].correctAnswer) {
@@ -146,7 +149,10 @@ function checkAnswer(userAnswer){
 }
 
 function feedbackCorrect(){
-  //offer responsive feedback to answer submitted
+  generateFeedbackCorrect();
+}
+
+function generateFeedbackCorrect(){
   $('main').html(
     `<p>Correct</p>
     <p>Current Score: ${store.score}/${store.questionNumber + 1}</p>
@@ -154,7 +160,11 @@ function feedbackCorrect(){
     );
 }
 
-function feedbackWrong() {   
+function feedbackWrong() {
+  generateFeedbackWrong();
+}
+
+function generateFeedbackWrong() {   
   $('main').html(
     `<p>Nope, the correct answer is ${store.questions[store.questionNumber].correctAnswer}</p>
     <p>Current Score: ${store.score}/${store.questionNumber + 1}</p>
