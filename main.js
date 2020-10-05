@@ -53,6 +53,8 @@ const store = {
       }
     ],
     questionNumber: -1,
+    feedbackCorrect: false,
+    feedbackWrong: false,
     score: 0
 };
 
@@ -66,6 +68,12 @@ function render(){
 function generateHtml(store){
   if (store.questionNumber === -1) {
     return generateBeginElement();
+  }
+  else if (store.feedbackCorrect) {
+    return generateFeedbackCorrect();
+  }
+  else if (store.feedbackWrong) {
+    return generateFeedbackWrong();
   }
   else if ((store.questionNumber) === store.questions.length) {
     return generateEndElement();
@@ -120,22 +128,21 @@ function generateQuestionElement(store){
 }
 
 function generateFeedbackCorrect(){
-  $('main').html(
-    `<div class="text-box">
+  store.feedbackCorrect = false;
+  return `<div class="text-box">
     <h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
     <p>Correct! ${store.questions[store.questionNumber].correctAnswer} was the right answer.</p>
     <p class="score">Current Score: ${store.score}/${store.questionNumber + 1}</p>
-    <button id="js-next-question">Next</button></div>`
-    );
+    <button id="js-next-question">Next</button></div>`;
 }
 
-function generateFeedbackWrong(userAnswer) {   
-  $('main').html(
-    `<div class="text-box">
+function generateFeedbackWrong(userAnswer) {  
+  store.feedbackWrong = false; 
+  return `<div class="text-box">
     <h2>${store.questionNumber + 1}: ${store.questions[store.questionNumber].question}</h2>
     <p>Sorry, that was inccorect. The right answer is ${store.questions[store.questionNumber].correctAnswer}</p>
     <p>Current Score: ${store.score}/${store.questionNumber + 1}</p>
-    <button id='js-next-question'>Next</button></div>`)
+    <button id='js-next-question'>Next</button></div>`;
 }
 
 /********** EVENT HANDLER FUNCTIONS **********/
@@ -148,7 +155,7 @@ function handleBeginQuiz(){
 function handleQuestionResponse(){
   $("main").on("submit", ".js-question-form", function(event){
     event.preventDefault();
-    checkFeedback();  
+    checkAnswer();  
   })
 }
 
@@ -160,38 +167,31 @@ function handleNextQuestion(){
 
 function handleQuizRestart() {
   $("main").on("click", "#js-quiz-restart", function(event){
-    store.score = 0;
-    store.questionNumber = -1;
-    render();
+    quizRestart();
   })
 }
 
 /********** OTHER FUNCTIONS **********/
-function checkFeedback() {
+function checkAnswer() {
   const userAnswer = $("input[type='radio'][name='question-response']:checked").val();
-    const correct = checkAnswer(userAnswer);
-    console.log(userAnswer);
-    if (correct) {
-      generateFeedbackCorrect();
-    }
-    else {
-      generateFeedbackWrong();
-    }       
-}
-
-function checkAnswer(userAnswer){
   if (userAnswer === store.questions[store.questionNumber].correctAnswer) {
     store.score += 1;
-    console.log(store.score);
-    return true;
+    store.feedbackCorrect = true;
   }
   else {
-    return false;
+    store.feedbackWrong = true;
   }
+  render();
 }
 
 function nextQuestion(){
   store.questionNumber += 1;
+  render();
+}
+
+function quizRestart() {
+  store.score = 0;
+  store.questionNumber = -1;
   render();
 }
 
