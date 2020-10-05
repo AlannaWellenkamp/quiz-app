@@ -44,7 +44,7 @@ const store = {
       {
         question: 'Which of the following is true? Flamingos...',
         answers: [
-          'will sometimes have their legs freeze in a body of water overnight, only to thaw the next morning with no repercussions',
+          'can have their legs freeze in a body of water overnight, only to thaw the next morning with no repercussions',
           'can drink boiling water',
           'can survive exposure to arsenic, other caustic elements, and poisonous gasses',
           'all of the above'

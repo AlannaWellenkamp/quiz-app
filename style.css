@@ -22,14 +22,16 @@ html {
     width: 90%;
 }
 
+h1, h2, .response, button, p {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    color: #031109;
+}
+
 header h1 {
     text-align: center;
     font-size: 2em;
-}
-
-h1, h2, .response, button, p {
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
-    color: #082213;
+    color: white;
+    text-shadow: #031109 2px 1px;
 }
 
 h2 {
